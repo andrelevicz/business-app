@@ -11,7 +11,7 @@ import * as yup from 'yup';
 const schema = yup.object({
   username: yup.string().required("Informe seu nome de usuario"),
   password: yup.string().min(7,"Sua senha deve conter pelo menos 7 digitos").required("Informe sua senha"),
-  email: yup.string().email("E-mail invalido").required("Informe seu e-mail")
+  email: yup.string().min(5,"E-mail deve conter pelo menos 5 caracteres").email("E-mail invalido").required("Informe seu e-mail")
 });
 
 export default Login = () => {
