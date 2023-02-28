@@ -13,21 +13,15 @@ export const styles = StyleSheet.create( {
     },
 
     inputArea: {
-        padding: 10,
-        width: "95%",
-        height: "5%",
+        padding: 40,
+        width: "70%",
+        height: "10%",
         backgroundColor: "#fff",
         borderRadius: 5,
         margin: 10,
-        marginBottom: 5,
-        color: 'black'
+        marginBottom: 15,
+        color: 'white'
     },
-
-   labelArea: {
-     height: 80,
-     width: "90%"
-
-   },
 
     customButton: {
         height: 60,
