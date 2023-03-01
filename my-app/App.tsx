@@ -1,13 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import MainStack  from './src/stacks/MainStack';
 
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>agora vai porra</Text>
-      <StatusBar style="auto" />
-    </View>
+    <MainStack />
   );
 }
 

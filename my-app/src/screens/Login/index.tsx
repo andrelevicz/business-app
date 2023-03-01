@@ -1,88 +1,96 @@
 import React, { useState }  from "react";
-import {Text, TextInput, TouchableOpacity, View, SafeAreaView} from 'react-native';
+import {Text, TextInput, TouchableOpacity, View, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native';
 import { styles } from './styles';
 import { useNavigation } from "@react-navigation/native";
 import {useForm, Controller} from 'react-hook-form';
-import { yupResolver }  from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 
 
-
-const schema = yup.object({
-  username: yup.string().required("Informe seu nome de usuario"),
-  password: yup.string().min(7,"Sua senha deve conter pelo menos 7 digitos").required("Informe sua senha"),
-  email: yup.string().email("E-mail invalido").required("Informe seu e-mail")
-});
 
 export default function Login ()  {
 
   const navigation = useNavigation()
 
-  const {control, handleSubmit, formState: { errors }} = useForm({
-    resolver: yupResolver(schema)
+  const { register, setValue, handleSubmit, control, reset, formState: { errors } } = useForm({
+    defaultValues: {
+      user: '',
+      password: ''
+    }
   });
+  const onSubmit = (data : any) => {
+    console.log(data);
+  };
 
-  function handleSignIn(data: any) {
-    console.log(data)
+  const onChange = (arg : any) => {
+    return {
+      value: arg.nativeEvent.text,
+    };
+  };
 
-  }
+  console.log('errors', errors);
+
 
     return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+      >
         <SafeAreaView style={styles.container}>
-
           <Text style={styles.title}>Bem vindo ao makeMoney</Text>
-
           <Controller 
             control={control}
-            name="username"
+            name="user"
             render={({field: { onChange, onBlur, value}}) => (
-              <TextInput
-                style={[styles.inputArea, {
-                  borderWidth: errors.username && 1.5,
-                  borderColor: errors.username && "#ff375b"
-                }]}
-                onChangeText={onChange}
-                onBlur={onBlur} // Quando o textInput eh focado
-                value={value}
-                placeholder="Seu nome de usuario"
-              /> 
+              <View style={[styles.inputArea, {
+                borderWidth: errors.user && 1.5,
+                borderColor: errors.user && "#ff375b"
+              }]}>
+                <TextInput
+                  style={{flex: 1}}
+                  onChangeText={value => onChange(value)}
+                  onBlur={onBlur} // Quando o textInput eh focado
+                  value={value}
+                  placeholder="Seu nome de usuario"
+                /> 
+              </View>
             )}
+            rules={{ required : {value: true, message: "Digite seu usuario"} }}
           />
-          {/* {errors.username && <Text style={styles.labelError}>{errors.username?.message}</Text>} */}
+          {errors.user && <Text style={styles.labelError}>{errors.user?.message}</Text>}
 
           <Controller 
             control={control}
             name="password"
             render={({field: { onChange, onBlur, value}}) => (
-              <TextInput
-                style={[styles.inputArea, {
-                borderWidth: errors.password && 1.5,
-                borderColor: errors.password && "#ff375b"
-                }]}
-                onChangeText={onChange}
-                onBlur={onBlur} // Quando o textInput eh focado
-                value={value}
-                placeholder="Senha"
-              /> 
+              <View style={[styles.inputArea, {
+                borderWidth: errors.user && 1.5,
+                borderColor: errors.user && "#ff375b"
+              }]}>
+                <TextInput
+                  style={{flex: 1}}
+                  onChangeText={value => onChange(value)}
+                  onBlur={onBlur} // Quando o textInput eh focado
+                  value={value}
+                  placeholder="Senha"
+                /> 
+              </View>
             )}
+            rules={{ required : {value: true, message: "Digite sua senha"} }}
           />
-          {/* {errors.password && <Text style={styles.labelError}>{errors.password?.message}</Text>} */}
-          
-     
-
-
-            
-       <TouchableOpacity onPress={handleSubmit(handleSignIn)}>
-         <Text style={styles.customButtonText}>Acessar</Text>
-       </TouchableOpacity>
+          {errors.password && <Text style={styles.labelError}>{errors.password?.message}</Text>}
+  
+          <TouchableOpacity onPress={handleSubmit(onSubmit)}>
+            <Text style={styles.customButtonText}>Acessar</Text>
+          </TouchableOpacity>
 
        
-       <TouchableOpacity 
-       onPress={() => alert('Go to Cadastro')
-      //  navigation.navigate('Cadastro')
-       }>
-         <Text style={styles.customRegisterButton}>Nao possui cadastro? Clique para se cadastrar.</Text>
-       </TouchableOpacity>
+          <TouchableOpacity 
+              onPress={() => alert('Go to Cadastro')
+              //  navigation.navigate('Cadastro')
+              }>
+            <Text style={styles.customRegisterButton}>Nao possui cadastro? Clique para se cadastrar.</Text>
+          </TouchableOpacity>
+       
         </SafeAreaView>
+    </KeyboardAvoidingView>
     );
 }

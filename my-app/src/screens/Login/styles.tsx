@@ -13,7 +13,6 @@ export const styles = StyleSheet.create( {
     },
 
     inputArea: {
-        padding: 40,
         width: "70%",
         height: "10%",
         backgroundColor: "#fff",
